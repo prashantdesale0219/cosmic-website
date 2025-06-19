@@ -1,0 +1,1071 @@
+# E-Commerce API Endpoints with Examples
+
+## Authentication Routes
+
+### User Authentication
+- POST /api/auth/register - Register a new user
+  ```
+  // Request
+  {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "password": "password123",
+    "phone": "9876543210"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "User registered successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c85",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "phone": "9876543210"
+    }
+  }
+  ```
+
+- POST /api/auth/login - Login a user
+  ```
+  // Request
+  {
+    "email": "john@example.com",
+    "password": "password123"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Login successful",
+    "data": {
+      "user": {
+        "_id": "60d21b4667d0d8992e610c85",
+        "name": "John Doe",
+        "email": "john@example.com"
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+  }
+  ```
+
+- POST /api/auth/send-otp - Send OTP for verification
+  ```
+  // Request
+  {
+    "phone": "9876543210"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "OTP sent successfully",
+    "data": {
+      "otpId": "60d21b4667d0d8992e610c86"
+    }
+  }
+  ```
+
+- POST /api/auth/verify-otp - Verify OTP
+  ```
+  // Request
+  {
+    "otpId": "60d21b4667d0d8992e610c86",
+    "otp": "123456"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "OTP verified successfully",
+    "data": {
+      "verified": true
+    }
+  }
+  ```
+
+- POST /api/auth/forgot-password - Request password reset
+  ```
+  // Request
+  {
+    "email": "john@example.com"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Password reset link sent to your email"
+  }
+  ```
+
+- POST /api/auth/reset-password - Reset password with token
+  ```
+  // Request
+  {
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "password": "newpassword123"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Password reset successful"
+  }
+  ```
+
+### Admin Authentication
+- POST /api/auth/admin/login - Login as admin
+  ```
+  // Request
+  {
+    "email": "admin@example.com",
+    "password": "adminpassword"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Admin login successful",
+    "data": {
+      "admin": {
+        "_id": "60d21b4667d0d8992e610c87",
+        "name": "Admin User",
+        "email": "admin@example.com"
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+  }
+  ```
+
+### Seller Authentication
+- POST /api/auth/seller/register - Register a new seller
+  ```
+  // Request
+  {
+    "name": "Seller Shop",
+    "email": "seller@example.com",
+    "password": "sellerpassword",
+    "phone": "9876543211",
+    "businessName": "My Shop",
+    "businessAddress": "123 Shop Street",
+    "gstin": "22AAAAA0000A1Z5"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Seller registered successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c88",
+      "name": "Seller Shop",
+      "email": "seller@example.com",
+      "businessName": "My Shop"
+    }
+  }
+  ```
+
+- POST /api/auth/seller/login - Login as seller
+  ```
+  // Request
+  {
+    "email": "seller@example.com",
+    "password": "sellerpassword"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Seller login successful",
+    "data": {
+      "seller": {
+        "_id": "60d21b4667d0d8992e610c88",
+        "name": "Seller Shop",
+        "email": "seller@example.com",
+        "businessName": "My Shop"
+      },
+      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    }
+  }
+  ```
+
+## User Routes
+
+### Profile Management
+- GET /api/users/profile - Get user profile
+  ```
+  // Response
+  {
+    "success": true,
+    "data": {
+      "_id": "60d21b4667d0d8992e610c85",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "phone": "9876543210",
+      "addresses": [],
+      "createdAt": "2023-01-01T12:00:00.000Z"
+    }
+  }
+  ```
+
+- PUT /api/users/profile - Update user profile
+  ```
+  // Request
+  {
+    "name": "John Updated",
+    "phone": "9876543210"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Profile updated successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c85",
+      "name": "John Updated",
+      "email": "john@example.com",
+      "phone": "9876543210"
+    }
+  }
+  ```
+
+### Address Management
+- GET /api/users/addresses - Get all user addresses
+  ```
+  // Response
+  {
+    "success": true,
+    "data": [
+      {
+        "_id": "60d21b4667d0d8992e610c89",
+        "name": "Home",
+        "addressLine1": "123 Main St",
+        "addressLine2": "Apt 4B",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001",
+        "phone": "9876543210",
+        "isDefault": true
+      }
+    ]
+  }
+  ```
+
+- POST /api/users/addresses - Add a new address
+  ```
+  // Request
+  {
+    "name": "Office",
+    "addressLine1": "456 Work St",
+    "addressLine2": "Floor 3",
+    "city": "Mumbai",
+    "state": "Maharashtra",
+    "pincode": "400002",
+    "phone": "9876543210",
+    "isDefault": false
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Address added successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c90",
+      "name": "Office",
+      "addressLine1": "456 Work St",
+      "addressLine2": "Floor 3",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400002",
+      "phone": "9876543210",
+      "isDefault": false
+    }
+  }
+  ```
+
+- PUT /api/users/addresses/:id - Update an address
+  ```
+  // Request - PUT /api/users/addresses/60d21b4667d0d8992e610c90
+  {
+    "name": "Office Updated",
+    "addressLine2": "Floor 4",
+    "isDefault": true
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Address updated successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c90",
+      "name": "Office Updated",
+      "addressLine1": "456 Work St",
+      "addressLine2": "Floor 4",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400002",
+      "phone": "9876543210",
+      "isDefault": true
+    }
+  }
+  ```
+
+- DELETE /api/users/addresses/:id - Delete an address
+  ```
+  // Request - DELETE /api/users/addresses/60d21b4667d0d8992e610c90
+  
+  // Response
+  {
+    "success": true,
+    "message": "Address deleted successfully"
+  }
+  ```
+
+### Wishlist Management
+- GET /api/users/wishlist - Get user wishlist
+  ```
+  // Response
+  {
+    "success": true,
+    "data": [
+      {
+        "_id": "60d21b4667d0d8992e610c91",
+        "name": "Smartphone X",
+        "slug": "smartphone-x",
+        "price": 15000,
+        "images": ["image1.jpg", "image2.jpg"],
+        "seller": {
+          "_id": "60d21b4667d0d8992e610c88",
+          "businessName": "My Shop"
+        }
+      }
+    ]
+  }
+  ```
+
+- POST /api/users/wishlist/:productId - Add product to wishlist
+  ```
+  // Request - POST /api/users/wishlist/60d21b4667d0d8992e610c91
+  
+  // Response
+  {
+    "success": true,
+    "message": "Product added to wishlist"
+  }
+  ```
+
+- DELETE /api/users/wishlist/:productId - Remove product from wishlist
+  ```
+  // Request - DELETE /api/users/wishlist/60d21b4667d0d8992e610c91
+  
+  // Response
+  {
+    "success": true,
+    "message": "Product removed from wishlist"
+  }
+  ```
+
+## Cart Routes
+
+### Cart Management
+- GET /api/cart - Get user cart
+  ```
+  // Response
+  {
+    "success": true,
+    "data": {
+      "_id": "60d21b4667d0d8992e610c92",
+      "user": "60d21b4667d0d8992e610c85",
+      "items": [
+        {
+          "_id": "60d21b4667d0d8992e610c93",
+          "product": {
+            "_id": "60d21b4667d0d8992e610c91",
+            "name": "Smartphone X",
+            "slug": "smartphone-x",
+            "price": 15000,
+            "images": ["image1.jpg"]
+          },
+          "variant": {
+            "_id": "60d21b4667d0d8992e610c94",
+            "name": "Black, 6GB RAM",
+            "price": 15000
+          },
+          "quantity": 1,
+          "price": 15000
+        }
+      ],
+      "coupon": null,
+      "totalItems": 1,
+      "totalQuantity": 1,
+      "subtotal": 15000,
+      "discount": 0,
+      "total": 15000
+    }
+  }
+  ```
+
+- POST /api/cart/items - Add item to cart
+  ```
+  // Request
+  {
+    "productId": "60d21b4667d0d8992e610c91",
+    "variantId": "60d21b4667d0d8992e610c94",
+    "quantity": 1
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Item added to cart",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c92",
+      "items": [
+        {
+          "_id": "60d21b4667d0d8992e610c93",
+          "product": {
+            "_id": "60d21b4667d0d8992e610c91",
+            "name": "Smartphone X",
+            "price": 15000
+          },
+          "variant": {
+            "_id": "60d21b4667d0d8992e610c94",
+            "name": "Black, 6GB RAM",
+            "price": 15000
+          },
+          "quantity": 1,
+          "price": 15000
+        }
+      ],
+      "totalItems": 1,
+      "totalQuantity": 1,
+      "subtotal": 15000,
+      "discount": 0,
+      "total": 15000
+    }
+  }
+  ```
+
+- PUT /api/cart/items/:itemId - Update cart item
+  ```
+  // Request - PUT /api/cart/items/60d21b4667d0d8992e610c93
+  {
+    "quantity": 2
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Cart item updated",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c92",
+      "items": [
+        {
+          "_id": "60d21b4667d0d8992e610c93",
+          "product": {
+            "_id": "60d21b4667d0d8992e610c91",
+            "name": "Smartphone X",
+            "price": 15000
+          },
+          "variant": {
+            "_id": "60d21b4667d0d8992e610c94",
+            "name": "Black, 6GB RAM",
+            "price": 15000
+          },
+          "quantity": 2,
+          "price": 15000
+        }
+      ],
+      "totalItems": 1,
+      "totalQuantity": 2,
+      "subtotal": 30000,
+      "discount": 0,
+      "total": 30000
+    }
+  }
+  ```
+
+- DELETE /api/cart/items/:itemId - Remove item from cart
+  ```
+  // Request - DELETE /api/cart/items/60d21b4667d0d8992e610c93
+  
+  // Response
+  {
+    "success": true,
+    "message": "Item removed from cart",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c92",
+      "items": [],
+      "totalItems": 0,
+      "totalQuantity": 0,
+      "subtotal": 0,
+      "discount": 0,
+      "total": 0
+    }
+  }
+  ```
+
+- DELETE /api/cart - Clear cart
+  ```
+  // Response
+  {
+    "success": true,
+    "message": "Cart cleared",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c92",
+      "items": [],
+      "totalItems": 0,
+      "totalQuantity": 0,
+      "subtotal": 0,
+      "discount": 0,
+      "total": 0
+    }
+  }
+  ```
+
+### Coupon Management
+- POST /api/cart/coupon - Apply coupon to cart
+  ```
+  // Request
+  {
+    "code": "WELCOME20"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Coupon applied successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c92",
+      "items": [
+        {
+          "_id": "60d21b4667d0d8992e610c93",
+          "product": {
+            "_id": "60d21b4667d0d8992e610c91",
+            "name": "Smartphone X",
+            "price": 15000
+          },
+          "quantity": 2,
+          "price": 15000
+        }
+      ],
+      "coupon": {
+        "_id": "60d21b4667d0d8992e610c95",
+        "code": "WELCOME20",
+        "discount": 20,
+        "type": "percentage"
+      },
+      "totalItems": 1,
+      "totalQuantity": 2,
+      "subtotal": 30000,
+      "discount": 6000,
+      "total": 24000
+    }
+  }
+  ```
+
+- DELETE /api/cart/coupon - Remove coupon from cart
+  ```
+  // Response
+  {
+    "success": true,
+    "message": "Coupon removed",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c92",
+      "items": [
+        {
+          "_id": "60d21b4667d0d8992e610c93",
+          "product": {
+            "_id": "60d21b4667d0d8992e610c91",
+            "name": "Smartphone X",
+            "price": 15000
+          },
+          "quantity": 2,
+          "price": 15000
+        }
+      ],
+      "coupon": null,
+      "totalItems": 1,
+      "totalQuantity": 2,
+      "subtotal": 30000,
+      "discount": 0,
+      "total": 30000
+    }
+  }
+  ```
+
+## Order Routes
+
+### Order Management
+- POST /api/orders - Create a new order
+  ```
+  // Request
+  {
+    "addressId": "60d21b4667d0d8992e610c89",
+    "paymentMethod": "COD"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Order placed successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c96",
+      "orderNumber": "ORD12345678",
+      "user": "60d21b4667d0d8992e610c85",
+      "items": [
+        {
+          "product": {
+            "_id": "60d21b4667d0d8992e610c91",
+            "name": "Smartphone X",
+            "price": 15000
+          },
+          "variant": {
+            "_id": "60d21b4667d0d8992e610c94",
+            "name": "Black, 6GB RAM",
+            "price": 15000
+          },
+          "quantity": 2,
+          "price": 15000,
+          "total": 30000,
+          "status": "Pending"
+        }
+      ],
+      "shippingAddress": {
+        "name": "Home",
+        "addressLine1": "123 Main St",
+        "addressLine2": "Apt 4B",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001",
+        "phone": "9876543210"
+      },
+      "paymentMethod": "COD",
+      "paymentStatus": "Pending",
+      "status": "Placed",
+      "subtotal": 30000,
+      "discount": 0,
+      "total": 30000,
+      "createdAt": "2023-01-01T12:00:00.000Z"
+    }
+  }
+  ```
+
+- GET /api/orders - Get all user orders
+  ```
+  // Response
+  {
+    "success": true,
+    "data": [
+      {
+        "_id": "60d21b4667d0d8992e610c96",
+        "orderNumber": "ORD12345678",
+        "status": "Placed",
+        "total": 30000,
+        "createdAt": "2023-01-01T12:00:00.000Z",
+        "items": [
+          {
+            "product": {
+              "_id": "60d21b4667d0d8992e610c91",
+              "name": "Smartphone X",
+              "image": "image1.jpg"
+            },
+            "quantity": 2,
+            "status": "Pending"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+
+- GET /api/orders/:id - Get order by ID
+  ```
+  // Request - GET /api/orders/60d21b4667d0d8992e610c96
+  
+  // Response
+  {
+    "success": true,
+    "data": {
+      "_id": "60d21b4667d0d8992e610c96",
+      "orderNumber": "ORD12345678",
+      "user": {
+        "_id": "60d21b4667d0d8992e610c85",
+        "name": "John Doe",
+        "email": "john@example.com",
+        "phone": "9876543210"
+      },
+      "items": [
+        {
+          "product": {
+            "_id": "60d21b4667d0d8992e610c91",
+            "name": "Smartphone X",
+            "price": 15000,
+            "images": ["image1.jpg"]
+          },
+          "variant": {
+            "_id": "60d21b4667d0d8992e610c94",
+            "name": "Black, 6GB RAM",
+            "price": 15000
+          },
+          "seller": {
+            "_id": "60d21b4667d0d8992e610c88",
+            "businessName": "My Shop"
+          },
+          "quantity": 2,
+          "price": 15000,
+          "total": 30000,
+          "status": "Pending",
+          "statusHistory": [
+            {
+              "status": "Pending",
+              "timestamp": "2023-01-01T12:00:00.000Z"
+            }
+          ]
+        }
+      ],
+      "shippingAddress": {
+        "name": "Home",
+        "addressLine1": "123 Main St",
+        "addressLine2": "Apt 4B",
+        "city": "Mumbai",
+        "state": "Maharashtra",
+        "pincode": "400001",
+        "phone": "9876543210"
+      },
+      "paymentMethod": "COD",
+      "paymentStatus": "Pending",
+      "status": "Placed",
+      "statusHistory": [
+        {
+          "status": "Placed",
+          "timestamp": "2023-01-01T12:00:00.000Z"
+        }
+      ],
+      "subtotal": 30000,
+      "discount": 0,
+      "total": 30000,
+      "createdAt": "2023-01-01T12:00:00.000Z"
+    }
+  }
+  ```
+
+- PUT /api/orders/:id/status - Update order status
+  ```
+  // Request - PUT /api/orders/60d21b4667d0d8992e610c96/status
+  {
+    "status": "Processing"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Order status updated",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c96",
+      "status": "Processing",
+      "statusHistory": [
+        {
+          "status": "Placed",
+          "timestamp": "2023-01-01T12:00:00.000Z"
+        },
+        {
+          "status": "Processing",
+          "timestamp": "2023-01-01T13:00:00.000Z"
+        }
+      ]
+    }
+  }
+  ```
+
+- PUT /api/orders/:id/items/:itemId/status - Update order item status
+  ```
+  // Request - PUT /api/orders/60d21b4667d0d8992e610c96/items/60d21b4667d0d8992e610c97/status
+  {
+    "status": "Shipped"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Order item status updated",
+    "data": {
+      "_id": "60d21b4667d0d8992e610c97",
+      "status": "Shipped",
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2023-01-01T12:00:00.000Z"
+        },
+        {
+          "status": "Shipped",
+          "timestamp": "2023-01-01T14:00:00.000Z"
+        }
+      ]
+    }
+  }
+  ```
+
+- GET /api/orders/:id/invoice - Generate order invoice
+  ```
+  // Request - GET /api/orders/60d21b4667d0d8992e610c96/invoice
+  
+  // Response (PDF file download)
+  ```
+
+## Catalog Routes
+
+### Categories
+- GET /api/categories - Get all categories
+  ```
+  // Response
+  {
+    "success": true,
+    "data": [
+      {
+        "_id": "60d21b4667d0d8992e610c98",
+        "name": "Electronics",
+        "slug": "electronics",
+        "image": "electronics.jpg",
+        "children": [
+          {
+            "_id": "60d21b4667d0d8992e610c99",
+            "name": "Smartphones",
+            "slug": "smartphones",
+            "image": "smartphones.jpg"
+          }
+        ]
+      }
+    ]
+  }
+  ```
+
+- GET /api/categories/:id - Get category by ID
+  ```
+  // Request - GET /api/categories/60d21b4667d0d8992e610c98
+  
+  // Response
+  {
+    "success": true,
+    "data": {
+      "_id": "60d21b4667d0d8992e610c98",
+      "name": "Electronics",
+      "slug": "electronics",
+      "description": "All electronic items",
+      "image": "electronics.jpg",
+      "parent": null,
+      "children": [
+        {
+          "_id": "60d21b4667d0d8992e610c99",
+          "name": "Smartphones",
+          "slug": "smartphones",
+          "image": "smartphones.jpg"
+        }
+      ],
+      "status": "active",
+      "createdAt": "2023-01-01T12:00:00.000Z"
+    }
+  }
+  ```
+
+### Products
+- GET /api/products - Get all products
+  ```
+  // Response
+  {
+    "success": true,
+    "data": {
+      "products": [
+        {
+          "_id": "60d21b4667d0d8992e610c91",
+          "name": "Smartphone X",
+          "slug": "smartphone-x",
+          "price": 15000,
+          "discountedPrice": 14000,
+          "images": ["image1.jpg"],
+          "rating": 4.5,
+          "seller": {
+            "_id": "60d21b4667d0d8992e610c88",
+            "businessName": "My Shop"
+          },
+          "category": {
+            "_id": "60d21b4667d0d8992e610c99",
+            "name": "Smartphones"
+          }
+        }
+      ],
+      "pagination": {
+        "total": 1,
+        "page": 1,
+        "limit": 10,
+        "pages": 1
+      }
+    }
+  }
+  ```
+
+- GET /api/products/:id - Get product by ID
+  ```
+  // Request - GET /api/products/60d21b4667d0d8992e610c91
+  
+  // Response
+  {
+    "success": true,
+    "data": {
+      "_id": "60d21b4667d0d8992e610c91",
+      "name": "Smartphone X",
+      "slug": "smartphone-x",
+      "description": "A powerful smartphone with great features",
+      "price": 15000,
+      "discountedPrice": 14000,
+      "stock": 100,
+      "images": ["image1.jpg", "image2.jpg"],
+      "variants": [
+        {
+          "_id": "60d21b4667d0d8992e610c94",
+          "name": "Black, 6GB RAM",
+          "price": 15000,
+          "stock": 50
+        },
+        {
+          "_id": "60d21b4667d0d8992e610ca0",
+          "name": "White, 6GB RAM",
+          "price": 15000,
+          "stock": 50
+        }
+      ],
+      "specifications": {
+        "RAM": "6GB",
+        "Storage": "128GB",
+        "Processor": "Snapdragon 888",
+        "Battery": "5000mAh"
+      },
+      "seller": {
+        "_id": "60d21b4667d0d8992e610c88",
+        "businessName": "My Shop",
+        "rating": 4.2
+      },
+      "category": {
+        "_id": "60d21b4667d0d8992e610c99",
+        "name": "Smartphones",
+        "slug": "smartphones"
+      },
+      "rating": 4.5,
+      "reviews": [
+        {
+          "_id": "60d21b4667d0d8992e610ca1",
+          "user": {
+            "_id": "60d21b4667d0d8992e610c85",
+            "name": "John Doe"
+          },
+          "rating": 5,
+          "review": "Great product, highly recommended!",
+          "createdAt": "2023-01-02T12:00:00.000Z"
+        }
+      ],
+      "status": "active",
+      "createdAt": "2023-01-01T12:00:00.000Z"
+    }
+  }
+  ```
+
+- POST /api/products/:id/reviews - Add a product review
+  ```
+  // Request - POST /api/products/60d21b4667d0d8992e610c91/reviews
+  {
+    "rating": 4,
+    "review": "Good product, works as expected."
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Review added successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610ca2",
+      "user": "60d21b4667d0d8992e610c85",
+      "product": "60d21b4667d0d8992e610c91",
+      "rating": 4,
+      "review": "Good product, works as expected.",
+      "createdAt": "2023-01-03T12:00:00.000Z"
+    }
+  }
+  ```
+
+## Finance Routes
+
+### Coupons
+- POST /api/finance/coupons/validate - Validate a coupon
+  ```
+  // Request
+  {
+    "code": "WELCOME20",
+    "cartTotal": 30000
+  }
+
+  // Response
+  {
+    "success": true,
+    "data": {
+      "_id": "60d21b4667d0d8992e610c95",
+      "code": "WELCOME20",
+      "discount": 20,
+      "type": "percentage",
+      "maxDiscount": 5000,
+      "minOrderValue": 1000,
+      "validUntil": "2023-12-31T23:59:59.000Z",
+      "discountAmount": 5000
+    }
+  }
+  ```
+
+### Payments
+- POST /api/finance/payments - Create a payment
+  ```
+  // Request
+  {
+    "orderId": "60d21b4667d0d8992e610c96",
+    "amount": 30000,
+    "paymentMethod": "CARD"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Payment initiated",
+    "data": {
+      "_id": "60d21b4667d0d8992e610ca3",
+      "orderId": "60d21b4667d0d8992e610c96",
+      "amount": 30000,
+      "paymentMethod": "CARD",
+      "status": "Pending",
+      "paymentGatewayOrderId": "pay_123456789",
+      "paymentLink": "https://paymentgateway.com/pay/123456789"
+    }
+  }
+  ```
+
+- POST /api/finance/payments/verify - Verify a payment
+  ```
+  // Request
+  {
+    "paymentId": "60d21b4667d0d8992e610ca3",
+    "paymentGatewayPaymentId": "pay_123456789",
+    "signature": "abcdef123456"
+  }
+
+  // Response
+  {
+    "success": true,
+    "message": "Payment verified successfully",
+    "data": {
+      "_id": "60d21b4667d0d8992e610ca3",
+      "orderId": "60d21b4667d0d8992e610c96",
+      "amount": 30000,
+      "paymentMethod": "CARD",
+      "status": "Completed",
+      "paymentGatewayOrderId": "pay_123456789",
+      "paymentGatewayPaymentId": "pay_123456789",
+      "completedAt": "2023-01-01T13:00:00.000Z"
+    }
+  }
+  ```
